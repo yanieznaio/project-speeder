@@ -53,7 +53,7 @@ if (( $num_page > 1)); then
     #create all routes
     if [[ "$confirm_createpage" = "y" ]]; then
         cd app
-        for page in "${pages[@]}"; do 
+        for page in "$pages[@]"; do 
             mkdir -p "$page"
             echo "Created Route: $page"
         done
