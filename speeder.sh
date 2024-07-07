@@ -10,6 +10,8 @@ read use_reacticons
 # ask if color palette
 echo "Do you have a color palette or a color ? y/n"
 read use_color
+echo "How much page will your project contain beside the Home page?"
+read num_page
 
 
 project="Project resume: name: $project_name , framer-motion: $use_framermotion ,  react-icons: $use_reacticons , color: $use_color "
@@ -29,6 +31,36 @@ if [ "$use_reacticons" = "y" ]; then
     npm i react-icons
 fi
 
+
+
+# if num_page > loop to ask for the name of n page and create route in folder
+if (( $num_page > 1)); then
+
+    echo "Page route configurations:"
+    pages=()
+
+    for ((i=2; i<= num_page; i++)); do
+        echo -n "Enter page $i name : "
+        read page_name
+        #append page name to pages string
+        pages+=("$page_name")
+    done
+
+    echo "these pages will we be created: [ ${pages[@]} ] confirm ? y/n"
+    read confirm_createpage
+
+    
+    #create all routes
+    if [[ "$confirm_createpage" = "y" ]]; then
+        cd app
+        for page in "${pages[@]}"; do 
+            mkdir -p "$page"
+            echo "Created Route: $page"
+        done
+        echo "All routes have been created successfully"
+    fi
+
+fi
 
 #if use tailwind add the color to tailwind config
 if [ "$use_color" = "y" ]; then
@@ -80,6 +112,7 @@ read open_project
 if [ "$open_project" = "y" ]; then
     code .
 fi
+
 
 # todo
 # ask for using existing local components and place it inside the projects
